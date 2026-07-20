@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  eco-ai-db:
+    image: postgres:15.18-trixie
+    container_name: eco-ai-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - eco-network
+
+  eco-ai-backend:
+    image : mldoc101/dev-prod:backend-v1.0
+    container_name: eco-ai-backend
+    restart: unless-stopped
+    depends_on:
+      - eco-ai-db
+    environment:
+      DATABASE_URL: postgresql://postgres:mysecretpassword@eco-ai-db:5432/postgres
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/workspace/
+    networks:
+      - eco-network
+
+  eco-ai-frontend:
+    image: mldoc101/dev-prod:v1.0
+    container_name: eco-ai-frontend
+    restart: unless-stopped
+    depends_on:
+      - eco-ai-backend
+    ports:
+      - "3000:80"
+    networks:
+      - eco-network
+
+volumes:
+  postgres_data:
+
+networks:
+  eco-network:
+    driver: bridge

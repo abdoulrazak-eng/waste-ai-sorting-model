@@ -1,0 +1,16 @@
+
+torch==2.8.0+cpu
+torchvision==0.23.0+cpu
+onnx
+onnxscript
+onnxruntime
+uvicorn
+fastapi
+sqlalchemy
+alembic
+psycopg2-binary
+python-dotenv
+milvus-lite
+pymilvus
+opencv-python
+python-multipart
