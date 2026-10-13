@@ -2,30 +2,32 @@ import datetime
 from io import BytesIO
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi import APIRouter, Depends, File, UploadFile, Request
 from sqlalchemy.orm import Session
 
 from models.logs import Categories, Logs
 
 from models.session import get_db
 from inference.mapping import classes
+from sorting_auth import require_sorting_session
 inference_router = APIRouter()
 
-from main import app
 
 
 
 
 @inference_router.post("/inference", status_code=201)
 async def inference(
+    request: Request,
     frame: UploadFile = File(...),
     db: Session = Depends(get_db),
+    context=Depends(require_sorting_session),
 ):
     # Read image bytes
     image_bytes = await frame.read()
     
 
-    model = app.state.waste_classifier
+    model = request.app.state.waste_classifier
     pred_class , conf = model.predict(BytesIO(image_bytes))
 
 
@@ -36,9 +38,11 @@ async def inference(
         try:
             record = Logs(
                 category=pred_category,
-                confidence=round(0, 2),
-                captured_at=datetime.datetime.now(),
-                synced_at=datetime.datetime.now(),
+                confidence=conf,
+                captured_at=datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None),
+                synced_at=None,
+                business_id=context["business"]["id"],
+                kiosk_id=context["kiosk"]["kioskId"],
                 idempotency_key=uuid4(),
             )
             db.add(record)

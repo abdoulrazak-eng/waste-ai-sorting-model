@@ -4,6 +4,7 @@ from models.logs import Learning
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from sqlalchemy.exc import SQLAlchemyError
+from sorting_auth import require_sorting_session
 
 feedback_router = APIRouter()
 
@@ -13,9 +14,11 @@ class Payload(BaseModel):
     label : str
 
 @feedback_router.post("/feedback", status_code=201)
-async def feedback(payload: Payload, db: Session = Depends(get_db)):
+async def feedback(payload: Payload, db: Session = Depends(get_db), context=Depends(require_sorting_session)):
     try:
         record = Learning(
+            business_id=context["business"]["id"],
+            kiosk_id=context["kiosk"]["kioskId"],
             image=payload.image,
             confidence=(payload.confidence/100),
             label=payload.label,

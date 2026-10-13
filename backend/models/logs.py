@@ -16,6 +16,8 @@ class Base(DeclarativeBase):
 
 class Logs(Base):
     __tablename__ = "logs"
+    business_id: Mapped[str | None] = mapped_column(String(36), nullable=True, index=True)
+    kiosk_id: Mapped[str | None] = mapped_column(String(100), nullable=True, index=True)
 
     id: Mapped[int] = mapped_column(primary_key=True)
     category: Mapped[Categories] = mapped_column(Enum(Categories))
@@ -30,6 +32,8 @@ class Logs(Base):
 
 class Learning(Base):
     __tablename__ = "learning"
+    business_id: Mapped[str | None] = mapped_column(String(36), nullable=True, index=True)
+    kiosk_id: Mapped[str | None] = mapped_column(String(100), nullable=True, index=True)
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     image: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
     confidence: Mapped[float] = mapped_column(Float, nullable=False)

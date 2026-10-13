@@ -1,7 +1,8 @@
 import WasteSorter from "./components/WasteSorter/WasteSorter";
+import SortingAccess from "./components/SortingAccess/SortingAccess";
 
 function App() {
-  return <WasteSorter />;
+  return <SortingAccess><WasteSorter /></SortingAccess>;
 }
 
 export default App;

@@ -1,0 +1,17 @@
+.sorting-access-page { min-height: 100vh; display: grid; place-items: center; padding: 24px; box-sizing: border-box; background: #f3f7f4; color: #173329; font-family: system-ui, sans-serif; }
+.sorting-access-card { width: 100%; max-width: 430px; padding: 32px; border: 1px solid #dbe7df; border-radius: 18px; background: white; box-shadow: 0 16px 50px #1733290d; box-sizing: border-box; }
+.sorting-access-brand { color: #15803d; font-size: 20px; font-weight: 800; }
+.sorting-access-card h1 { font-size: 25px; margin: 20px 0 8px; }
+.sorting-access-card p { font-size: 14px; line-height: 1.6; }
+.sorting-access-tabs { display: flex; gap: 8px; margin: 24px 0; }
+.sorting-access-card button, .sorting-account-bar button { cursor: pointer; font: inherit; border-radius: 8px; padding: 10px 14px; border: 1px solid #cbd9d0; background: white; color: #173329; }
+.sorting-access-tabs button { flex: 1; font-size: 13px; }
+.sorting-access-tabs button[aria-pressed="true"] { background: #eaf7ef; color: #166534; border-color: #86cba0; }
+.sorting-access-card label { display: block; font-weight: 600; font-size: 13px; margin-top: 18px; }
+.sorting-access-card input { display: block; box-sizing: border-box; width: 100%; margin-top: 8px; padding: 12px; border: 1px solid #cbd9d0; border-radius: 8px; background: white; color: #173329; font: inherit; }
+.sorting-access-card .sorting-access-submit { margin-top: 24px; width: 100%; background: #15803d; border-color: #15803d; color: white; font-weight: 700; }
+.sorting-access-error { color: #b91c1c; }
+.sorting-access-card button:disabled, .sorting-account-bar button:disabled { opacity: .6; cursor: wait; }
+.sorting-account-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 12px 24px; background: #f3f7f4; border-bottom: 1px solid #dbe7df; color: #173329; font: 14px system-ui, sans-serif; }
+.sorting-account-bar span { display: block; font-size: 12px; color: #527163; margin-top: 4px; }
+.sorting-account-bar p { width: 100%; color: #b91c1c; margin: 0; }

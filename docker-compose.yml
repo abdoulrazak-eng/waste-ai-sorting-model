@@ -24,6 +24,9 @@ services:
       - eco-ai-db
     environment:
       DATABASE_URL: postgresql://postgres:mysecretpassword@eco-ai-db:5432/postgres
+      SMARTECO_API_URL: ${SMARTECO_API_URL:-http://host.docker.internal:3002/api/v1}
+      SORTING_FRONTEND_ORIGINS: ${SORTING_FRONTEND_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      SORTING_COOKIE_SECURE: ${SORTING_COOKIE_SECURE:-false}
     ports:
       - "8000:8000"
     volumes:
@@ -32,7 +35,8 @@ services:
       - eco-network
 
   eco-ai-frontend:
-    image: mldoc101/dev-prod:v1.0
+    image: smarteco-sorting-frontend:local
+    build: ./frontend
     container_name: eco-ai-frontend
     restart: unless-stopped
     depends_on:

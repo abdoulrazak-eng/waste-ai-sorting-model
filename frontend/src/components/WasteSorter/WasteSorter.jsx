@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import styles from "./WasteSorter.module.css";
+import { SORTING_API_BASE, sortingFetch } from '../../sorting-api';
 
 // ---- Config ----
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = SORTING_API_BASE;
 const CATEGORIES = ["e-waste", "hazardous", "recycle", "landfill", "compost"];
 const CONFIDENCE_THRESHOLD = 50;
 
@@ -118,7 +119,7 @@ export default function WasteSorter() {
   const sendFeedback = async (label) => {
     if (!lastImageB64 || !lastResult) return;
     try {
-      await fetch(`${API_BASE}/feedback`, {
+      await sortingFetch(`${API_BASE}/feedback`, {
         method: "POST",
         headers: { "Content-Type": "application/json", accept: "application/json" },
         body: JSON.stringify({
@@ -233,7 +234,7 @@ export default function WasteSorter() {
   // ---- Fetch sorted results (counts) ----
   const fetchSorted = useCallback(async () => {
     try {
-      const res = await fetch(`${API_BASE}/get_sorted`, {
+      const res = await sortingFetch(`${API_BASE}/get_sorted`, {
         method: "GET",
         headers: { accept: "application/json" },
       });
@@ -296,7 +297,7 @@ export default function WasteSorter() {
     const formData = new FormData();
     formData.append("frame", blob, "frame.jpg");
 
-    const res = await fetch(`${API_BASE}/inference`, {
+    const res = await sortingFetch(`${API_BASE}/inference`, {
       method: "POST",
       headers: { accept: "application/json" }, // don't set Content-Type manually; browser sets multipart boundary
       body: formData,
